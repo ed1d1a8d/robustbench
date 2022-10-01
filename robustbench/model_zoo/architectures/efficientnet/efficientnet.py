@@ -28,6 +28,9 @@ VALID_MODELS = (
     'efficientnet-b4', 'efficientnet-b5', 'efficientnet-b6', 'efficientnet-b7',
     'efficientnet-b8',
 
+    # From https://github.com/cihangxie/SmoothAdversarialTraining
+    'efficientnet-bL1',
+
     # Support the construction of 'efficientnet-l2' without pretrained weights
     'efficientnet-l2'
 )
@@ -295,6 +298,10 @@ class EfficientNet(nn.Module):
         Returns:
             Output of this model after processing.
         """
+        inputs = F.interpolate(
+            inputs, size=self._global_params.image_size, mode="bicubic"
+        )
+
         # Convolution layers
         x = self.extract_features(inputs)
         # Pooling and final linear layer

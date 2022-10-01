@@ -6,7 +6,7 @@ from torchvision import models as pt_models
 from robustbench.model_zoo.enums import ThreatModel
 from robustbench.model_zoo.architectures.utils_architectures import normalize_model
 from robustbench.model_zoo.architectures import xcit
-
+from robustbench.model_zoo.architectures.efficientnet.efficientnet import EfficientNet
 
 mu = (0.485, 0.456, 0.406)
 sigma = (0.229, 0.224, 0.225)
@@ -62,6 +62,33 @@ linf = OrderedDict(
             'gdrive_id':
             None
         }),
+        ('Xie2020Smooth_b7',{
+            'model': lambda: normalize_model(
+                EfficientNet.from_name('efficientnet-b7', batch_norm_epsilon=1e-5),
+                mean=(0.5, 0.5, 0.5),
+                std=(0.5, 0.5, 0.5),
+            ),
+            'preprocessing': 'Res256Crop224',
+            'gdrive_id': "1s92eju4dKRfh8S5iOVwyTW5y1a-8M9fw"
+        }),
+        ('Xie2020Smooth_L1',{
+            'model': lambda: normalize_model(
+                EfficientNet.from_name('efficientnet-bL1', batch_norm_epsilon=1e-5),
+                mean=(0.5, 0.5, 0.5),
+                std=(0.5, 0.5, 0.5),
+            ),
+            'preprocessing': 'Res256Crop224',
+            'gdrive_id': "1c2JhOLqICQGLH1zdF3nw93WwPypI9lhK"
+        }),
+        ('Xie2020Smooth_L1Enhanced',{
+            'model': lambda: normalize_model(
+                EfficientNet.from_name('efficientnet-bL1', batch_norm_epsilon=1e-5),
+                mean=(0.5, 0.5, 0.5),
+                std=(0.5, 0.5, 0.5),
+            ),
+            'preprocessing': 'Res256Crop224',
+            'gdrive_id': "1uwhdy3d7fOQNasfT5f96ylWvKJWhJApE"
+        })
     ])
 
 common_corruptions = OrderedDict(
@@ -105,5 +132,3 @@ common_corruptions = OrderedDict(
 
 imagenet_models = OrderedDict([(ThreatModel.Linf, linf),
                                (ThreatModel.corruptions, common_corruptions)])
-
-
